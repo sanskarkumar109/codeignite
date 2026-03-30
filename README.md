@@ -56,7 +56,7 @@ Real-time preview
 
 🔧 Installation
 
-git clone https://github.com/yourusername/codeignite.git
+git clone https://github.com/sanskarkumar109/codeignite.git
 
 cd codeignite
 
