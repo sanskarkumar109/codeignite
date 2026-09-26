@@ -1,3 +1,4 @@
+require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -7,6 +8,12 @@ var cors = require("cors");
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var mongoose = require('mongoose');
+
+// Connect to MongoDB once for the entire application
+mongoose.connect('mongodb://127.0.0.1:27017/codeIDE')
+  .then(() => console.log('✅ MongoDB connected successfully!'))
+  .catch(err => console.error('❌ MongoDB Connection Error:', err));
 
 var app = express();
 
