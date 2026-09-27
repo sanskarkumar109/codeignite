@@ -7,11 +7,10 @@ var logger = require('morgan');
 var cors = require("cors");
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var mongoose = require('mongoose');
 
 // Connect to MongoDB once for the entire application
-mongoose.connect('mongodb://127.0.0.1:27017/codeIDE')
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/codeIDE')
   .then(() => console.log('✅ MongoDB connected successfully!'))
   .catch(err => console.error('❌ MongoDB Connection Error:', err));
 
@@ -30,7 +29,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

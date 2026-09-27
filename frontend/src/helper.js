@@ -8,7 +8,7 @@ export const removeClass = (el, className) => {
   if (elem) elem.classList.remove(className);
 };
 
-export const api_base_url = "http://localhost:3000";
+export const api_base_url = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
 
 export const getStoredTheme = () => {
   const saved = localStorage.getItem("theme");

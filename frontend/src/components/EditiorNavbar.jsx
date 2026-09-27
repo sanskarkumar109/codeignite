@@ -1,10 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import logo from "../images/logo.png";
 import { Link } from 'react-router-dom';
-import { FiDownload, FiSave, FiArrowLeft, FiCheckCircle, FiSun, FiMoon } from "react-icons/fi";
+import { FiDownload, FiSave, FiArrowLeft, FiCheckCircle, FiSun, FiMoon, FiSearch, FiFolder, FiImage } from "react-icons/fi";
+import { BsMagic } from "react-icons/bs";
 import { applyTheme, getStoredTheme } from '../helper';
 
-const EditiorNavbar = ({ projectTitle, onSave, isSaving, onDownload }) => {
+const EditiorNavbar = ({
+  projectTitle,
+  onSave,
+  isSaving,
+  onDownload,
+  onOpenAiChat,
+  onOpenCommandPalette,
+  isAiDrawerOpen,
+  onToggleFileTree,
+  isFileTreeOpen,
+  onOpenVisionModal,
+  onOpenTestRunner,
+  isTestRunnerOpen
+}) => {
   const [theme, setTheme] = useState(getStoredTheme());
 
   useEffect(() => {
@@ -23,7 +37,7 @@ const EditiorNavbar = ({ projectTitle, onSave, isSaving, onDownload }) => {
 
   return (
     <header className="app-panel h-14 px-3 sm:px-5 flex items-center justify-between border-b z-40 shrink-0">
-      {/* Left: Back & Project Title */}
+      {/* Left: Back, Explorer Toggle & Project Title */}
       <div className="flex items-center gap-2 sm:gap-3">
         <Link
           to="/"
@@ -34,6 +48,20 @@ const EditiorNavbar = ({ projectTitle, onSave, isSaving, onDownload }) => {
           <FiArrowLeft className="text-xs" />
           <span className="hidden sm:inline">Dashboard</span>
         </Link>
+
+        {/* File Explorer Toggle Button */}
+        <button
+          onClick={onToggleFileTree}
+          className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium cursor-pointer transition-all ${
+            isFileTreeOpen
+              ? 'btn-accent shadow-sm'
+              : 'btn-secondary'
+          }`}
+          title="Toggle Multi-File Explorer"
+        >
+          <FiFolder className="text-xs text-[var(--accent)]" />
+          <span className="hidden md:inline">Files</span>
+        </button>
 
         <div className="h-4 w-px bg-[var(--border)] hidden sm:block"></div>
 
@@ -51,8 +79,59 @@ const EditiorNavbar = ({ projectTitle, onSave, isSaving, onDownload }) => {
         </div>
       </div>
 
-      {/* Right: Actions (Theme, Save & Download) */}
+      {/* Right: Actions (Command Palette, Vision AI, AI Tests, AI Co-Pilot, Theme, Save & Download) */}
       <div className="flex items-center gap-2">
+        {/* Command Palette Trigger */}
+        <button
+          onClick={onOpenCommandPalette}
+          className="hidden sm:flex items-center gap-1.5 btn-secondary px-2.5 py-1.5 rounded-lg text-xs cursor-pointer"
+          title="Open Command Palette (Ctrl + K)"
+        >
+          <FiSearch className="text-xs text-[var(--accent)]" />
+          <span className="text-[11px] font-medium">Commands</span>
+          <kbd className="px-1.5 py-0.2 text-[9px] font-mono rounded bg-[var(--bg-primary)] border border-[var(--border)] text-[var(--text-muted)]">
+            Ctrl+K
+          </kbd>
+        </button>
+
+        {/* Vision AI Image-to-Code Button */}
+        <button
+          onClick={onOpenVisionModal}
+          className="flex items-center gap-1 btn-secondary px-2.5 py-1.5 rounded-lg text-xs font-medium cursor-pointer"
+          title="Vision AI: Upload UI Screenshot to Code"
+        >
+          <FiImage className="text-xs text-amber-400" />
+          <span className="hidden md:inline">Vision AI</span>
+        </button>
+
+        {/* AI Test Runner Button */}
+        <button
+          onClick={onOpenTestRunner}
+          className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold cursor-pointer transition-all ${
+            isTestRunnerOpen
+              ? 'btn-accent shadow-sm'
+              : 'btn-secondary text-[var(--text-primary)] hover:border-[var(--accent)]'
+          }`}
+          title="Open Automated AI Test Runner Terminal"
+        >
+          <span>🧪</span>
+          <span className="hidden md:inline">AI Tests</span>
+        </button>
+
+        {/* AI Co-Pilot Drawer Toggle */}
+        <button
+          onClick={onOpenAiChat}
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer transition-all ${
+            isAiDrawerOpen
+              ? 'btn-accent shadow-md ring-2 ring-[var(--accent)]/50'
+              : 'bg-[var(--accent)]/10 text-[var(--accent)] border border-[var(--accent)]/30 hover:bg-[var(--accent)]/20'
+          }`}
+          title="Toggle AI Co-Pilot Chat Sidebar"
+        >
+          <BsMagic className="text-xs animate-pulse" />
+          <span className="hidden md:inline">AI Assistant</span>
+        </button>
+
         {/* Dark / Light Theme Toggle */}
         <button
           onClick={toggleThemeMode}

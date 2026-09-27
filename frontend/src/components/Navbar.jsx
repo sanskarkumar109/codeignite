@@ -3,14 +3,16 @@ import logo from "../images/logo.png";
 import { Link, useNavigate } from 'react-router-dom';
 import Avatar from 'react-avatar';
 import { BsGridFill, BsListTask } from "react-icons/bs";
-import { FiLogOut, FiSun, FiMoon } from "react-icons/fi";
+import { FiLogOut, FiSun, FiMoon, FiKey } from "react-icons/fi";
 import { api_base_url, applyTheme, getStoredTheme } from '../helper';
+import ChangePasswordModal from './ChangePasswordModal';
 
 const Navbar = ({ isGridLayout, setIsGridLayout }) => {
   const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const [theme, setTheme] = useState(getStoredTheme());
+  const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
 
   useEffect(() => {
     const handleThemeChange = (e) => {
@@ -123,7 +125,18 @@ const Navbar = ({ isGridLayout, setIsGridLayout }) => {
                 <p className="text-[11px] text-[var(--text-muted)] truncate">{data ? data.email : ""}</p>
               </div>
 
-              <div className="py-1">
+              <div className="py-1 space-y-0.5">
+                <button
+                  onClick={() => {
+                    setShowDropdown(false);
+                    setIsChangePasswordOpen(true);
+                  }}
+                  className="w-full flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium text-[var(--text-primary)] hover:bg-[var(--accent)]/10 transition-all cursor-pointer"
+                >
+                  <FiKey className="text-sm text-[var(--accent)]" />
+                  <span>Change Password</span>
+                </button>
+
                 <button
                   onClick={logout}
                   className="w-full flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium text-red-500 hover:bg-red-500/10 transition-all cursor-pointer"
@@ -136,6 +149,12 @@ const Navbar = ({ isGridLayout, setIsGridLayout }) => {
           )}
         </div>
       </div>
+
+      {/* Change Password Modal */}
+      <ChangePasswordModal
+        isOpen={isChangePasswordOpen}
+        onClose={() => setIsChangePasswordOpen(false)}
+      />
     </nav>
   );
 };

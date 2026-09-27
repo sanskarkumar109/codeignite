@@ -35,7 +35,15 @@ const projectSchema = new mongoose.Schema({
   jsCode: {
     type: String,
     default: 'console.log("Hello World")'
-  }
+  },
+  files: [
+    {
+      name: { type: String, required: true },
+      path: { type: String, required: true },
+      content: { type: String, default: "" },
+      language: { type: String, default: "html" }
+    }
+  ]
 });
 
 module.exports = mongoose.model("Project", projectSchema);
